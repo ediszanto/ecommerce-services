@@ -1,0 +1,32 @@
+{
+  "namespace": "ecommerce.avro",
+  "name": "AvroOrderMessage",
+  "type": "record",
+  "fields": [
+    {"name": "userId", "type": "string"},
+    {"name": "date", "type": "string"},
+    {"name": "totalCost", "type": "double"},
+    {"name": "shippingAddress", "type": "string"},
+    {"name": "paymentStatus", "type": "string"},
+    {"name": "paymentType", "type": "string"},
+    {"name": "status", "type": "string"},
+    {
+      "name": "orderItems",
+      "type": [
+        "null",{
+          "type": "array",
+          "items": {
+            "namespace": "ecommerce.avro",
+            "type": "record",
+            "name": "AvroOrderItem",
+            "fields": [
+              {"name": "productId", "type": "long"},
+              {"name": "quantity", "type": "long"},
+              {"name": "unitPrice", "type": "double"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

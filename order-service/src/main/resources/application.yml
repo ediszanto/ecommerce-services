@@ -1,0 +1,57 @@
+server:
+  port: 8002
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    enabled: true
+    register-with-eureka: true
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:3000/eureka/
+
+spring:
+  application:
+    name: order
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/ecommerce?currentSchema=order_schema
+    username: postgres
+    password: password
+
+  flyway:
+    locations: classpath:db/migration
+    schemas: order_schema
+    default-schema: order_schema
+    group: true
+    placeholder-replacement: true
+    url: jdbc:postgresql://localhost:5432/ecommerce?currentSchema=order_schema
+    user: flyway
+    password: flyway
+
+  jpa:
+    open-in-view: false
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-wx7ne78bg2ztxwxc.us.auth0.com/
+          client-id: 8mfLvSWBhTSqpXuYEOBH3GyELMTymqmn
+          client-secret: OJEA71P8KwhylsYP7eM5a5WyUK5nqIPvC9j3Mor3N8MeHFJ-Qff11tSjmXI7K9pB
+          audience: auth0-spring
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    properties:
+      schema.registry.url: http://localhost:8081
+#      compatibility: BACKWARD
+      auto.register.schemas: true
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+
+kafka-topic:
+  topic-name: topic.ecommerce.request.order

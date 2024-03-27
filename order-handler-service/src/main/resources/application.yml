@@ -1,0 +1,55 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: order-handler
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/ecommerce?currentSchema=order_schema
+    username: postgres
+    password: password
+
+  jpa:
+    open-in-view: false
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-wx7ne78bg2ztxwxc.us.auth0.com/
+          client-id: 8mfLvSWBhTSqpXuYEOBH3GyELMTymqmn
+          client-secret: OJEA71P8KwhylsYP7eM5a5WyUK5nqIPvC9j3Mor3N8MeHFJ-Qff11tSjmXI7K9pB
+          audience: auth0-spring
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    properties:
+      schema.registry.url: http://localhost:8081
+      auto.register.schemas: true
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      group-id: test
+#      properties:
+#        specific.avro.reader: true
+
+
+
+kafka-topic:
+#  topic-name: topic.test
+  topic-name: topic.ecommerce.request.order
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    enabled: true
+    register-with-eureka: true
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:3000/eureka/
+
+logging:
+  level:
+    com.szanto: DEBUG
